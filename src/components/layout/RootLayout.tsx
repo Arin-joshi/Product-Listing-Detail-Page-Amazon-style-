@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 h-14 md:h-16 flex items-center justify-between gap-4">
           
           {/* Left spacer / Menu Button to balance the header */}
-          <div className="flex items-center min-w-[100px] justify-start shrink-0">
+          <div className="flex items-center min-w-[40px] sm:min-w-[100px] justify-start shrink-0">
             {showSidebarToggle && (
               <button
                 onClick={toggleSidebar}
@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </div>
           
           {/* Action icon group on the right - balanced static size matched to left spacer */}
-          <div className="flex items-center min-w-[100px] justify-end gap-2 sm:gap-4 shrink-0">
+          <div className="flex items-center min-w-[40px] sm:min-w-[100px] justify-end gap-2 sm:gap-4 shrink-0">
             {/* Wishlist Button */}
             <button 
               onClick={() => setIsWishlistOpen(true)}

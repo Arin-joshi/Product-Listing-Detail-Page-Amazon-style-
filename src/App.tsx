@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from 'sonner';
 import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
+import Checkout from './pages/Checkout';
 import RootLayout from './components/layout/RootLayout';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
@@ -46,6 +47,11 @@ export default function App() {
                   <Route path="/product/:id" element={
                     <RootLayout>
                       <ProductDetail />
+                    </RootLayout>
+                  } />
+                  <Route path="/checkout" element={
+                    <RootLayout>
+                      <Checkout />
                     </RootLayout>
                   } />
                 </Routes>

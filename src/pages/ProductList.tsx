@@ -36,6 +36,15 @@ export default function ProductList() {
     setQ(qParam);
   }, [minPriceParam, maxPriceParam, qParam]);
 
+  const searchString = searchParams.toString();
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  useEffect(() => {
+    setIsFiltering(true);
+    const timer = setTimeout(() => setIsFiltering(false), 500);
+    return () => clearTimeout(timer);
+  }, [searchString]);
+
   const { data: productsData, isLoading: isProductsLoading, error } = useQuery({
     queryKey: ['products', debouncedQ ? { q: debouncedQ } : { category: categoryParam }],
     queryFn: () => fetchProducts(debouncedQ ? { q: debouncedQ } : { category: categoryParam }),
@@ -46,7 +55,7 @@ export default function ProductList() {
     queryFn: fetchCategories,
   });
 
-  const showLoading = useMinimumLoading(isProductsLoading, 600);
+  const showLoading = useMinimumLoading(isProductsLoading, 600) || isFiltering;
   const showCategoriesLoading = useMinimumLoading(isCategoriesLoading, 600);
 
   const products = productsData?.products || [];
@@ -355,7 +364,6 @@ export default function ProductList() {
             </>
           )}
         </div>
-
       </div>
     </div>
   );
