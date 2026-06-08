@@ -174,180 +174,98 @@ export default function ProductDetail() {
 
         {/* Middle Column: Title and Details */}
         <div className="flex flex-col text-left">
-          
-          <div className="flex items-center justify-between mb-3">
-            <span className="text-xs font-bold text-blue-700 tracking-widest uppercase bg-blue-50 px-2.5 py-1 rounded-md">
-              {product.brand || 'Premium Quality'}
-            </span>
-          </div>
-
           {/* Main Title */}
-          <h1 className="text-3xl lg:text-4xl font-extrabold text-gray-900 leading-tight mb-4 font-geist tracking-tight">
+          <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-2 font-geist">
             {product.title}
           </h1>
 
-          {/* Golden stars rating */}
-          <div className="flex items-center gap-4 pb-4 border-b border-gray-100 mb-6">
-            <div className="flex items-center gap-1.5 cursor-pointer hover:bg-gray-50 px-2 py-1 rounded-lg transition-colors -ml-2" onClick={() => setIsReviewsOpen(true)}>
-              {renderStars(product.rating || 4.5, 18)}
-              <span className="text-sm font-semibold text-gray-800 ml-1">
-                {product.rating?.toFixed(1) || '4.5'}
-              </span>
-              <span className="text-sm text-blue-600 hover:underline">
-                ({product.reviews?.length || 0} verified reviews)
+          {/* Golden stars rating & Brand */}
+          <div className="flex items-center gap-3 text-sm text-gray-600 mb-6">
+            <div className="flex items-center gap-1 cursor-pointer">
+              {renderStars(product.rating || 4.5, 16)}
+              <span className="text-blue-600 hover:text-orange-500 hover:underline ml-1">
+                ({product.reviews?.length || 0})
               </span>
             </div>
+            <div className="w-px h-4 bg-gray-300"></div>
+            <span>Brand: <span className="text-blue-600 hover:text-orange-500 hover:underline cursor-pointer">{product.brand || 'Generic'}</span></span>
           </div>
 
-          {/* Product Information Accordions */}
-          <div className="space-y-4">
-            {/* Description Accordion */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
-              <button 
-                onClick={() => setIsDescOpen(!isDescOpen)}
-                className="w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-50 transition-colors font-bold text-gray-900"
-              >
-                <span className="text-[15px]">Product Description</span>
-                {isDescOpen ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
-              </button>
-              {isDescOpen && (
-                <div className="p-5 bg-white text-sm text-gray-600 leading-relaxed border-t border-gray-100">
-                  <p className="mb-4">{product.description}</p>
-                  
-                  {product.tags && product.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-50">
-                      {product.tags.map(tag => (
-                        <span key={tag} className="px-2.5 py-1 bg-gray-100 text-gray-600 rounded-md text-xs font-medium uppercase tracking-wider">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
+          {/* Pricing */}
+          <div className="mb-6">
+            {product.discountPercentage && product.discountPercentage > 0 ? (
+              <>
+                <div className="flex items-center gap-3 mb-1">
+                  <span className="text-red-600 text-lg font-semibold bg-red-50 px-2 rounded-sm">-{Math.round(product.discountPercentage)}%</span>
+                  <span className="text-3xl font-extrabold text-gray-900">${product.price.toFixed(2)}</span>
                 </div>
-              )}
-            </div>
-
-            {/* Specifications Accordion */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
-              <button 
-                onClick={() => setIsSpecsOpen(!isSpecsOpen)}
-                className="w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-50 transition-colors font-bold text-gray-900"
-              >
-                <span className="text-[15px]">Specifications</span>
-                {isSpecsOpen ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
-              </button>
-              {isSpecsOpen && (
-                <div className="p-5 bg-white text-sm text-gray-600 border-t border-gray-100">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
-                    <div className="flex justify-between border-b border-gray-50 pb-2">
-                      <span className="text-gray-500">Category</span>
-                      <span className="font-medium text-gray-900 capitalize">{product.category.replace('-', ' ')}</span>
-                    </div>
-                    <div className="flex justify-between border-b border-gray-50 pb-2">
-                      <span className="text-gray-500">Brand</span>
-                      <span className="font-medium text-gray-900">{product.brand || 'Generic'}</span>
-                    </div>
-                    {product.sku && (
-                      <div className="flex justify-between border-b border-gray-50 pb-2">
-                        <span className="text-gray-500">SKU</span>
-                        <span className="font-medium text-gray-900">{product.sku}</span>
-                      </div>
-                    )}
-                    {product.weight && (
-                      <div className="flex justify-between border-b border-gray-50 pb-2">
-                        <span className="text-gray-500">Weight</span>
-                        <span className="font-medium text-gray-900">{product.weight} {product.weight < 100 ? 'lbs' : 'oz'}</span>
-                      </div>
-                    )}
-                    {product.dimensions && (
-                      <div className="flex justify-between border-b border-gray-50 pb-2">
-                        <span className="text-gray-500">Dimensions</span>
-                        <span className="font-medium text-gray-900">{product.dimensions.width} x {product.dimensions.height} x {product.dimensions.depth}</span>
-                      </div>
-                    )}
-                    {product.minimumOrderQuantity && (
-                      <div className="flex justify-between border-b border-gray-50 pb-2">
-                        <span className="text-gray-500">Min Order Qty</span>
-                        <span className="font-medium text-gray-900">{product.minimumOrderQuantity} units</span>
-                      </div>
-                    )}
-                  </div>
-                  
-                  {product.meta?.qrCode && (
-                    <div className="mt-6 pt-4 border-t border-gray-100 flex flex-col items-start gap-2">
-                      <span className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Product QR Code</span>
-                      <img src={product.meta.qrCode} alt="QR Code" className="w-24 h-24 border border-gray-200 rounded p-1 bg-white" />
-                    </div>
-                  )}
+                <div className="text-sm text-gray-500">
+                  List Price: <span className="line-through">${((product.price * 100) / (100 - product.discountPercentage)).toFixed(2)}</span>
                 </div>
-              )}
-            </div>
-
-            {/* Reviews Accordion */}
-            <div className="border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
-              <button 
-                onClick={() => setIsReviewsOpen(!isReviewsOpen)}
-                className="w-full flex items-center justify-between p-4 bg-gray-50/50 hover:bg-gray-50 transition-colors font-bold text-gray-900"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-[15px]">Customer Reviews</span>
-                  <span className="bg-blue-100 text-blue-700 text-xs py-0.5 px-2 rounded-full font-bold">{product.reviews?.length || 0}</span>
-                </div>
-                {isReviewsOpen ? <ChevronUp size={18} className="text-gray-500" /> : <ChevronDown size={18} className="text-gray-500" />}
-              </button>
-              {isReviewsOpen && (
-                <div className="p-5 bg-white border-t border-gray-100 flex flex-col gap-6 max-h-[400px] overflow-y-auto">
-                  {product.reviews && product.reviews.length > 0 ? (
-                    product.reviews.map((review, i) => (
-                      <div key={i} className="flex flex-col gap-2 border-b border-gray-50 pb-4 last:border-0 last:pb-0">
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-gray-900 text-sm">{review.reviewerName}</span>
-                          <span className="text-xs text-gray-500">{new Date(review.date).toLocaleDateString()}</span>
-                        </div>
-                        {renderStars(review.rating, 14)}
-                        <p className="text-sm text-gray-600 italic mt-1">"{review.comment}"</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500 italic">No reviews yet.</p>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column: The Buy Box */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 md:p-8 flex flex-col premium-shadow sticky top-28 h-fit">
-          <div className="text-4xl font-extrabold text-gray-900 mb-2 font-geist tracking-tight">
-            ${product.price.toFixed(2)}
-          </div>
-
-          {product.discountPercentage && product.discountPercentage > 0 && (
-            <div className="flex items-center gap-2 text-sm mb-4">
-              <span className="text-gray-400 line-through">${((product.price * 100) / (100 - product.discountPercentage)).toFixed(2)}</span>
-              <span className="text-green-600 font-semibold bg-green-50 px-2 py-0.5 rounded">You save ${(((product.price * 100) / (100 - product.discountPercentage)) - product.price).toFixed(2)}</span>
-            </div>
-          )}
-
-          {/* Stock Urgency Indicator */}
-          <div className="mb-6 bg-gray-50 p-4 rounded-xl border border-gray-100">
-            <div className={`font-bold mb-2 flex items-center gap-2 ${product.stock > 0 && product.stock < 20 ? 'text-orange-600' : 'text-green-600'}`}>
-              <Check size={18} strokeWidth={2.5} />
-              {product.stock > 0 ? (product.stock < 20 ? `Only ${product.stock} left in stock - order soon` : 'In Stock and Ready to Ship') : 'Out of Stock'}
-            </div>
-            {product.stock > 0 && product.stock < 50 && (
-              <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-                <div className="bg-orange-500 h-1.5 rounded-full" style={{ width: `${Math.max(10, (product.stock / 50) * 100)}%` }}></div>
-              </div>
+              </>
+            ) : (
+              <div className="text-3xl font-extrabold text-gray-900">${product.price.toFixed(2)}</div>
             )}
           </div>
 
+          {/* Product Information */}
+          <div className="mt-4">
+            <h2 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3">Product Information</h2>
+            <p className="text-sm text-gray-600 leading-relaxed mb-4">
+              {product.description}
+            </p>
+
+            <ul className="list-disc pl-5 space-y-1.5 text-sm text-gray-600">
+              <li>Category: <span className="capitalize">{product.category.replace('-', ' ')}</span></li>
+              {product.dimensions && (
+                <li>Dimensions: {product.dimensions.width}" W x {product.dimensions.height}" H x {product.dimensions.depth}" D</li>
+              )}
+              {product.weight && (
+                <li>Weight: {product.weight} {product.weight < 100 ? 'lbs' : 'oz'}</li>
+              )}
+              {product.sku && (
+                <li>SKU: {product.sku}</li>
+              )}
+              <li>Warranty: {product.warrantyInformation || '1 Year Manufacturer Warranty'}</li>
+              <li>Product ID: {product.id}</li>
+            </ul>
+          </div>
+          
+          {/* Tags */}
+          {product.tags && product.tags.length > 0 && (
+            <div className="flex gap-2 mt-6">
+              {product.tags.map(tag => (
+                <span key={tag} className="px-2 py-1 bg-gray-100 text-gray-600 rounded text-xs">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right Column: The Buy Box */}
+        <div className="bg-white border border-gray-200 rounded-xl p-6 flex flex-col shadow-sm sticky top-28 h-fit">
+          <div className="text-3xl font-bold text-gray-900 mb-2">
+            ${product.price.toFixed(2)}
+          </div>
+
+          <div className="text-sm text-gray-600 mb-4">
+            <span className="font-medium text-gray-900">{product.shippingInformation || 'Free Standard Shipping'}</span> on all orders.
+          </div>
+
+          {/* Stock Urgency Indicator */}
+          <div className="mb-6">
+            <div className={`font-bold text-sm flex items-center gap-1.5 ${product.availabilityStatus === 'Low Stock' || (product.stock && product.stock > 0 && product.stock < 20) ? 'text-orange-600' : (product.availabilityStatus === 'Out of Stock' || product.stock === 0 ? 'text-red-600' : 'text-green-600')}`}>
+              {product.availabilityStatus !== 'Out of Stock' && product.stock !== 0 ? <Check size={16} strokeWidth={2.5} /> : null}
+              {product.availabilityStatus || (product.stock && product.stock > 0 ? (product.stock < 20 ? `Only ${product.stock} left in stock - order soon` : 'In Stock and Ready to Ship') : 'Out of Stock')}
+            </div>
+          </div>
+
           {/* Add to Cart / Buy Now buttons */}
-          <div className="flex flex-col gap-3 mb-6">
+          <div className="flex flex-col gap-2.5 mb-6">
             <button 
               onClick={handleAddToCart}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl py-4 shadow-sm transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+              className="w-full bg-[#2563eb] hover:bg-blue-700 text-white font-bold rounded-lg py-3 transition-colors flex items-center justify-center gap-2"
             >
               <ShoppingBag size={18} />
               {successMsg ? 'Added to Cart!' : 'Add to Cart'}
@@ -357,31 +275,21 @@ export default function ProductDetail() {
                 handleAddToCart();
                 setTimeout(() => navigate('/checkout'), 500);
               }}
-              className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold rounded-xl py-4 shadow-sm transition-all active:scale-[0.98]"
+              className="w-full bg-[#111827] hover:bg-black text-white font-bold rounded-lg py-3 transition-colors"
             >
               Buy it Now
             </button>
           </div>
 
-          {/* Trust Badges */}
-          <div className="grid grid-cols-3 gap-3 mb-6">
-            <div className="flex flex-col items-center text-center gap-2">
-              <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center shrink-0">
-                <ShieldCheck size={22} />
-              </div>
-              <span className="text-[10px] sm:text-[11px] font-semibold text-gray-600 leading-tight">{product.warrantyInformation || '1 Year Warranty'}</span>
+          {/* Ships from / Returns text */}
+          <div className="text-xs text-gray-500 flex flex-col gap-2 mb-6">
+            <div className="flex justify-between">
+              <span>Ships from</span>
+              <span className="font-medium text-gray-700">Premium Store</span>
             </div>
-            <div className="flex flex-col items-center text-center gap-2">
-              <div className="w-12 h-12 bg-green-50 text-green-600 rounded-full flex items-center justify-center shrink-0">
-                <Truck size={22} />
-              </div>
-              <span className="text-[10px] sm:text-[11px] font-semibold text-gray-600 leading-tight">{product.shippingInformation || 'Free Shipping'}</span>
-            </div>
-            <div className="flex flex-col items-center text-center gap-2">
-              <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center shrink-0">
-                <RotateCcw size={22} />
-              </div>
-              <span className="text-[10px] sm:text-[11px] font-semibold text-gray-600 leading-tight">{product.returnPolicy || '30-Day Returns'}</span>
+            <div className="flex justify-between">
+              <span>Returns</span>
+              <span className="font-medium text-gray-700">{product.returnPolicy || '30-Day Guarantee'}</span>
             </div>
           </div>
 
@@ -389,15 +297,40 @@ export default function ProductDetail() {
           <div>
             <button
               onClick={handleWishlistClick}
-              className="w-full border border-gray-200 rounded-xl text-sm py-3 hover:bg-gray-50 text-gray-700 font-bold transition-colors flex items-center justify-center gap-2"
+              className="w-full border border-gray-200 rounded-lg text-sm py-2 hover:bg-gray-50 text-gray-700 font-semibold transition-colors flex items-center justify-center gap-2"
             >
-              <Heart size={16} className={isWished ? "fill-red-500 text-red-500" : ""} />
+              <Heart size={15} className={isWished ? "fill-red-500 text-red-500" : ""} />
               {isWished ? 'Remove from Wishlist' : 'Add to Wishlist'}
             </button>
           </div>
         </div>
 
       </div>
+
+      {/* Customer Reviews Section */}
+      {product.reviews && product.reviews.length > 0 && (
+        <div className="mt-16 pt-8 border-t border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 font-geist">Customer Reviews</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {product.reviews.map((review, index) => (
+              <div key={index} className="bg-white p-5 rounded-lg border border-gray-100 shadow-sm flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center font-bold text-gray-500 text-sm">
+                    {review.reviewerName.charAt(0)}
+                  </div>
+                  <span className="font-semibold text-gray-900 text-sm">{review.reviewerName}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  {renderStars(review.rating, 14)}
+                  <span className="text-xs font-semibold text-gray-800">{review.rating.toFixed(1)}</span>
+                </div>
+                <span className="text-xs text-gray-500">Reviewed on {new Date(review.date).toLocaleDateString()}</span>
+                <p className="text-sm text-gray-700 mt-2">"{review.comment}"</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Related Products Section */}
       {relatedData?.products && relatedData.products.length > 1 && (

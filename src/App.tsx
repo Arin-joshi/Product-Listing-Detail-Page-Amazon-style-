@@ -31,7 +31,7 @@ export default function App() {
         <WishlistProvider>
           <LayoutProvider>
             <CartProvider>
-              <BrowserRouter>
+              <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
                 <Routes>
                   {/* Redirect root path directly to products catalog */}
                   <Route path="/" element={
@@ -44,6 +44,8 @@ export default function App() {
                       <ProductList />
                     </RootLayout>
                   } />
+                  {/* Fallback for /product without ID */}
+                  <Route path="/product" element={<Navigate to="/products" replace />} />
                   <Route path="/product/:id" element={
                     <RootLayout>
                       <ProductDetail />
