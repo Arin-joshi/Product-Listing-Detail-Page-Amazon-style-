@@ -61,13 +61,13 @@ export default function ProductList() {
 
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
-      if (debouncedQ && categoryParam !== 'all' && p.category !== categoryParam) return false;
+      if (categoryParam !== 'all' && p.category !== categoryParam) return false;
       if (minPriceParam && p.price < parseFloat(minPriceParam)) return false;
       if (maxPriceParam && p.price > parseFloat(maxPriceParam)) return false;
       if (brandParam && p.brand !== brandParam) return false;
       return true;
     });
-  }, [products, minPriceParam, maxPriceParam, brandParam, categoryParam, debouncedQ]);
+  }, [products, minPriceParam, maxPriceParam, brandParam, categoryParam]);
 
   const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);
   const paginatedProducts = useMemo(() => {
@@ -166,7 +166,7 @@ export default function ProductList() {
             placeholder="Min"
             value={minPrice}
             onChange={(e) => setMinPrice(e.target.value)}
-            className="w-full bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500/10 rounded-md py-1.5 px-3 text-xs transition-all text-gray-900 outline-none"
+            className="w-full bg-white border border-gray-200 focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 rounded-lg py-2 px-3 text-sm transition-all text-gray-900 outline-none"
           />
           <span className="text-gray-400 text-xs font-semibold">-</span>
           <input
@@ -174,12 +174,12 @@ export default function ProductList() {
             placeholder="Max"
             value={maxPrice}
             onChange={(e) => setMaxPrice(e.target.value)}
-            className="w-full bg-gray-50 border border-gray-200 focus:border-blue-500 focus:bg-white focus:ring-1 focus:ring-blue-500/10 rounded-md py-1.5 px-3 text-xs transition-all text-gray-900 outline-none"
+            className="w-full bg-white border border-gray-200 focus:border-primary-500 focus:ring-1 focus:ring-primary-500/20 rounded-lg py-2 px-3 text-sm transition-all text-gray-900 outline-none"
           />
         </div>
         <button
           onClick={() => updateParams({ minPrice, maxPrice }, true)}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-1.5 px-4 rounded-md transition-all text-xs shadow-sm hover:shadow-md"
+          className="w-full bg-primary-600 hover:bg-primary-700 text-white font-semibold py-2 px-4 rounded-lg transition-all text-sm shadow-sm hover:shadow-md active:scale-95"
         >
           Apply
         </button>
@@ -254,7 +254,7 @@ export default function ProductList() {
       <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
         
         {/* Left Column: Desktop Sticky Filter panel */}
-        <aside className="w-[260px] shrink-0 sticky top-20 bg-white border border-gray-200 rounded-lg p-5 shadow-sm hidden lg:block select-none">
+        <aside className="w-[260px] shrink-0 sticky top-24 glass rounded-2xl p-6 hidden lg:block select-none">
           {renderFilterPanelContents()}
         </aside>
 
